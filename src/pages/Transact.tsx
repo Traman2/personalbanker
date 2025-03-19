@@ -88,8 +88,12 @@ function TransactionForm() {
     fetchUserData();
   }, []);
 
-  const toaster = (transact:string, amo:number) => {
-    toast(`Your ${transact} of $${amo} was completed`)
+  const toasterSuc = (transact:string, amo:number) => {
+    toast.success(`Your ${transact} of $${amo} was completed`)
+  }
+
+  const toasterErr = (transact:string, amo:number) => {
+    toast.error(`Your ${transact} of $${amo} was declined`)
   }
 
   const onSubmit = async (data: TransactData) => {
@@ -109,13 +113,15 @@ function TransactionForm() {
           .then((response) => {
             console.log("Server Response: ", response);
             if (response.data.message === "Deposit successful") {
-              toaster(transactionType, amount);
+              toasterSuc(transactionType, amount);
             } else {
               console.error("Deposit didn't go through");
+              toasterErr(transactionType, amount);
             }
           })
           .catch((error) => {
             console.error("Problem with deposit", error);
+            toasterErr(transactionType, amount);
             setLoading(false);
           });
       } else if (transactionType === "withdraw") {
@@ -128,18 +134,19 @@ function TransactionForm() {
           .then((response) => {
             console.log("Server Response: ", response);
             if (response.data.message === "Withdrawal successful") {
-              toaster(transactionType, amount);
+              toasterSuc(transactionType, amount);
             } else {
               console.error("Withdrawal didn't go through");
             }
           })
           .catch((error) => {
             console.error("Problem with withdrawal", error);
+            toasterErr(transactionType, amount);
             setLoading(false);
           });
       } else if (transactionType === "transfer") {
         if (!recipientAccount) {
-          alert("Recipient Account No. required for transfer");
+          toasterErr(transactionType, amount);
         }
 
         await axios
@@ -151,13 +158,15 @@ function TransactionForm() {
             .then((response) => {
               console.log("Server Response: ", response);
               if (response.data.message === "Transfer successful") {
-                toaster(transactionType, amount);
+                toasterSuc(transactionType, amount);
               } else {
                 console.error("Transfer didn't go through");
+                toasterErr(transactionType, amount);
               }
             })
             .catch((error) => {
               console.error("Problem with withdrawal", error);
+              toasterErr(transactionType, amount);
               setLoading(false);
             });
 

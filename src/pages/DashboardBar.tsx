@@ -35,6 +35,10 @@ export function MenubarDemo({ name }: Props) {
     navigate("/transact");
   };
 
+  const handleCreation = () => {
+    navigate("/creation");
+  };
+
   return (
     <Menubar>
       <MenubarMenu>
@@ -52,7 +56,7 @@ export function MenubarDemo({ name }: Props) {
           {name}
         </MenubarTrigger>
         <MenubarContent>
-          <MenubarItem onClick={handleDashBoard}>Main Menu</MenubarItem>
+          <MenubarItem onClick={handleDashBoard}>Overview</MenubarItem>
           <MenubarItem onClick={handleSettings}>Settings</MenubarItem>
           <MenubarItem>Billing#</MenubarItem>
           <MenubarItem>Upgrade#</MenubarItem>
@@ -64,8 +68,9 @@ export function MenubarDemo({ name }: Props) {
       <MenubarMenu>
         <MenubarTrigger>Security</MenubarTrigger>
         <MenubarContent>
-          <MenubarItem>Recent Transactions#</MenubarItem>
           <MenubarItem onClick={handleSecurity}>Fraud Notices</MenubarItem>
+          <MenubarItem>Recent Transactions#</MenubarItem>
+
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
@@ -73,6 +78,12 @@ export function MenubarDemo({ name }: Props) {
         <MenubarContent>
           <MenubarItem onClick={handleTransact}>Transact</MenubarItem>
           <MenubarItem>Account Summary#</MenubarItem>
+        </MenubarContent>
+      </MenubarMenu>
+      <MenubarMenu>
+        <MenubarTrigger>Services</MenubarTrigger>
+        <MenubarContent>
+          <MenubarItem onClick={handleCreation}>New Account</MenubarItem>
         </MenubarContent>
       </MenubarMenu>
     </Menubar>

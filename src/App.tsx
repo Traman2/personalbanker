@@ -13,6 +13,7 @@ import { ThemeProvider } from "@/components/theme-provider.tsx";
 import Settings from "@/pages/Settings.tsx";
 import TransactionForm from "@/pages/Transact.tsx";
 import RootLayout from "@/components/Layout.tsx";
+import BankAccountCreation from "@/pages/BankAccountCreation.tsx";
 
 function App() {
   return (
@@ -23,10 +24,38 @@ function App() {
             <Route path="/" element={<LoginForm />} />
             <Route path="/signup" element={<SignupForm />} />
             <Route path="/login" element={<LoginForm />} />
-            <Route path="/security" element={<Security />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/transact" element={<TransactionForm />} />
-
+            <Route
+              path="/security"
+              element={
+                <PrivateRoute>
+                  <Security />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/settings"
+              element={
+                <PrivateRoute>
+                  <Settings />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/transact"
+              element={
+                <PrivateRoute>
+                  <TransactionForm />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/creation"
+              element={
+                <PrivateRoute>
+                  <BankAccountCreation />
+                </PrivateRoute>
+              }
+            />
             <Route
               path="/dashboard"
               element={
