@@ -89,10 +89,7 @@ function TransactionForm() {
   }, []);
 
   const toaster = (transact:string, amo:number) => {
-    toast("Event has been created", {
-      description: `Your ${transact} of $${amo} was completed`,
-
-    })
+    toast(`Your ${transact} of $${amo} was completed`)
   }
 
   const onSubmit = async (data: TransactData) => {
