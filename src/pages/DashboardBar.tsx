@@ -27,28 +27,51 @@ export function MenubarDemo({ name }: Props) {
     navigate("/security");
   };
 
+  const handleSettings = () => {
+    navigate("/settings");
+  };
+
+  const handleTransact = () => {
+    navigate("/transact");
+  };
+
   return (
     <Menubar>
       <MenubarMenu>
-        <MenubarTrigger className=" px-4 py-1 rounded-lg font-semibold hover:bg-blue-100">
+        <MenubarTrigger
+          className="
+              px-4 py-1
+              rounded-lg
+            text-blue-700
+              font-semibold
+              transition duration-200
+            hover:bg-amber-700
+            hover:text-gray-200
+            "
+        >
           {name}
         </MenubarTrigger>
         <MenubarContent>
+          <MenubarItem onClick={handleDashBoard}>Main Menu</MenubarItem>
+          <MenubarItem onClick={handleSettings}>Settings</MenubarItem>
           <MenubarItem>Billing#</MenubarItem>
           <MenubarItem>Upgrade#</MenubarItem>
-          <MenubarItem onClick={handleDashBoard}>Main Menu</MenubarItem>
           <MenubarItem onClick={handleLogout} className="text-red-500">
             Logout
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
-        <MenubarTrigger onClick={handleSecurity}>Security</MenubarTrigger>
+        <MenubarTrigger>Security</MenubarTrigger>
+        <MenubarContent>
+          <MenubarItem>Recent Transactions#</MenubarItem>
+          <MenubarItem onClick={handleSecurity}>Fraud Notices</MenubarItem>
+        </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
         <MenubarTrigger>Balance</MenubarTrigger>
         <MenubarContent>
-          <MenubarItem>Recent Transactions#</MenubarItem>
+          <MenubarItem onClick={handleTransact}>Transact</MenubarItem>
           <MenubarItem>Account Summary#</MenubarItem>
         </MenubarContent>
       </MenubarMenu>

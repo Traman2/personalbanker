@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/card.tsx";
 import {useEffect, useState} from "react";
 import axios from "axios";
-
 //Shape of mongodb schema
 interface UserData {
   userName: string;
@@ -70,10 +69,10 @@ function Security() {
         <Card className="w-[400px] mt-4">
           <CardHeader>
             <CardTitle>Security Center</CardTitle>
-            <CardDescription>Summary of the account's security</CardDescription>
+            <CardDescription>Fraud Alert and detection</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="pt-4 ">More will come</p>
+            <p className="pt-4 ">Work in progress...</p>
           </CardContent>
         </Card>
       </div>

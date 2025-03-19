@@ -8,11 +8,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import {MenubarDemo} from "@/pages/DashboardBar.tsx";
+import { MenubarDemo } from "@/pages/DashboardBar.tsx";
 
-//Shape of the mongodb schema
+//Shape of the mongodb user schema
 interface UserData {
-  _id: number,
+  _id: number;
   userName: string;
   firstName: string;
   lastName: string;
@@ -20,11 +20,21 @@ interface UserData {
   dob: string;
 }
 
+//Shape of mongodb account schema
+interface UserAccount {
+  _id: string;
+  accountName: string;
+  userName: string;
+  userId: string;
+  balance: number;
+  accountNumber: string;
+}
+
 function Dashboard() {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const [userAccounts, setUserAccounts] = useState<UserAccount[]>([]);
   useEffect(() => {
     const fetchUserData = () => {
       setLoading(true);
@@ -41,6 +51,12 @@ function Dashboard() {
         .then((response) => {
           setUserData(response.data);
           setLoading(false);
+          console.log("Success in reading user data")
+          return axios.get(`http://localhost:3000/account/${userData?._id}`);
+        })
+        .then((accountResponse) => {
+          setUserAccounts(accountResponse.data);
+          console.log("Success in reading account data")
         })
         .catch((err) => {
           setLoading(false);
@@ -51,8 +67,7 @@ function Dashboard() {
     };
 
     fetchUserData();
-  }, []);
-
+  }, [userData?._id]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -76,32 +91,32 @@ function Dashboard() {
             <CardDescription>Personal Information</CardDescription>
           </CardHeader>
           <CardContent>
-              <div className="grid w-full items-center gap-4">
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="name">Username</Label>
-                  <p>{userData.userName}</p>
-                </div>
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="name">ID</Label>
-                  <p>{userData._id}</p>
-                </div>
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="name">First Name</Label>
-                  <p>{userData.firstName}</p>
-                </div>
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="name">Last Name</Label>
-                  <p>{userData.lastName}</p>
-                </div>
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="name">Primary Email address</Label>
-                  <p>{userData.email}</p>
-                </div>
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="name">Date of Birth</Label>
-                  <p>{new Date(userData.dob).toISOString().split("T")[0]}</p>
-                </div>
+            <div className="grid w-full items-center gap-4">
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="name">Username</Label>
+                <p>{userData.userName}</p>
               </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="name">ID</Label>
+                <p>{userData._id}</p>
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="name">First Name</Label>
+                <p>{userData.firstName}</p>
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="name">Last Name</Label>
+                <p>{userData.lastName}</p>
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="name">Primary Email address</Label>
+                <p>{userData.email}</p>
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="name">Date of Birth</Label>
+                <p>{new Date(userData.dob).toISOString().split("T")[0]}</p>
+              </div>
+            </div>
           </CardContent>
         </Card>
 
@@ -111,11 +126,31 @@ function Dashboard() {
             <CardDescription>List of all accounts</CardDescription>
           </CardHeader>
           <CardContent>
-            <p>Working on feature</p>
+            {userAccounts.length > 0 ? (
+              <div className="space-y-2">
+                {userAccounts.map((account) => (
+                  <div
+                    key={account._id}
+                    className="p-3 border rounded-lg flex flex-col"
+                  >
+                    <div className="flex justify-between">
+                      <span className="font-semibold">
+                        {account.accountName}
+                      </span>
+                      <span>${account.balance.toFixed(2)}</span>
+                    </div>
+                    <div className="text-sm text-gray-500 mt-1">
+                      Account No: {account.accountNumber}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p>No accounts found.</p>
+            )}
           </CardContent>
         </Card>
       </div>
-      {/* Display other user data as needed */}
     </div>
   );
 }
