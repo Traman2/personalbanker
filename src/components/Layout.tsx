@@ -1,7 +1,7 @@
 import { Toaster } from "@/components/ui/sonner";
 import { ReactNode } from "react"; // Adjust the import path as needed
 
-function RootLayout({ children }: { children: ReactNode }) {
+function ToasterLayout({ children }: { children: ReactNode }) {
   return (
     <div>
       <main>{children}</main>
@@ -10,4 +10,4 @@ function RootLayout({ children }: { children: ReactNode }) {
   );
 }
 
-export default RootLayout;
+export default ToasterLayout;

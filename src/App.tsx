@@ -12,14 +12,15 @@ import Security from "@/pages/Security.tsx";
 import { ThemeProvider } from "@/components/theme-provider.tsx";
 import Settings from "@/pages/Settings.tsx";
 import TransactionForm from "@/pages/Transact.tsx";
-import RootLayout from "@/components/Layout.tsx";
+import ToasterLayout from "@/components/Layout.tsx";
 import BankAccountCreation from "@/pages/BankAccountCreation.tsx";
+import DeleteAccount from "@/pages/DeactivateAccount.tsx";
 
 function App() {
   return (
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
       <Router>
-        <RootLayout>
+        <ToasterLayout>
           <Routes>
             <Route path="/" element={<LoginForm />} />
             <Route path="/signup" element={<SignupForm />} />
@@ -64,8 +65,16 @@ function App() {
                 </PrivateRoute>
               }
             />
+            <Route
+              path="/deleteAccount"
+              element={
+                <PrivateRoute>
+                  <DeleteAccount />
+                </PrivateRoute>
+              }
+            />
           </Routes>
-        </RootLayout>
+        </ToasterLayout>
       </Router>
     </ThemeProvider>
   );

@@ -5,7 +5,6 @@ import User from "../models/userModel.js";
 const createAccount = async (req, res) => {
   try {
     const { accountName, userId } = req.body;
-    console.log(typeof userId);
     // Check if the user exists
     const user = await User.findById(userId);
     if (!user) {

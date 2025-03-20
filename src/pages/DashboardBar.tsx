@@ -39,11 +39,17 @@ export function MenubarDemo({ name }: Props) {
     navigate("/creation");
   };
 
+  const handleDelete = () => {
+    navigate("/deleteAccount");
+  };
+
+
   return (
-    <Menubar>
-      <MenubarMenu>
-        <MenubarTrigger
-          className="
+
+      <Menubar>
+        <MenubarMenu>
+          <MenubarTrigger
+            className="
               px-4 py-1
               rounded-lg
             text-blue-700
@@ -52,40 +58,46 @@ export function MenubarDemo({ name }: Props) {
             hover:bg-amber-700
             hover:text-gray-200
             "
-        >
-          {name}
-        </MenubarTrigger>
-        <MenubarContent>
-          <MenubarItem onClick={handleDashBoard}>Overview</MenubarItem>
-          <MenubarItem onClick={handleSettings}>Settings</MenubarItem>
-          <MenubarItem>Billing#</MenubarItem>
-          <MenubarItem>Upgrade#</MenubarItem>
-          <MenubarItem onClick={handleLogout} className="text-red-500">
-            Logout
-          </MenubarItem>
-        </MenubarContent>
-      </MenubarMenu>
-      <MenubarMenu>
-        <MenubarTrigger>Security</MenubarTrigger>
-        <MenubarContent>
-          <MenubarItem onClick={handleSecurity}>Fraud Notices</MenubarItem>
-          <MenubarItem>Recent Transactions#</MenubarItem>
+          >
+            {name}
+          </MenubarTrigger>
+          <MenubarContent>
+            <MenubarItem onClick={handleDashBoard}>Overview</MenubarItem>
+            <MenubarItem onClick={handleSettings}>Settings</MenubarItem>
+            <MenubarItem>Billing#</MenubarItem>
+            <MenubarItem>Upgrade#</MenubarItem>
+            <MenubarItem onClick={handleLogout} className="text-red-500">
+              Logout
+            </MenubarItem>
+          </MenubarContent>
+        </MenubarMenu>
+        <MenubarMenu>
+          <MenubarTrigger>Security</MenubarTrigger>
+          <MenubarContent>
+            <MenubarItem onClick={handleSecurity}>Fraud Notices</MenubarItem>
+            <MenubarItem>Recent Transactions#</MenubarItem>
+          </MenubarContent>
+        </MenubarMenu>
+        <MenubarMenu>
+          <MenubarTrigger>Balance</MenubarTrigger>
+          <MenubarContent>
+            <MenubarItem onClick={handleTransact}>Transact</MenubarItem>
+            <MenubarItem>Account Summary#</MenubarItem>
+          </MenubarContent>
+        </MenubarMenu>
+        <MenubarMenu>
+          <MenubarTrigger>Services</MenubarTrigger>
+          <MenubarContent>
+            <MenubarItem onClick={handleCreation}>New Account</MenubarItem>
+            <MenubarItem
+              className="text-red-500 hover:text-red-600"
+              onClick={handleDelete}
+            >
+              Delete Account
+            </MenubarItem>
+          </MenubarContent>
+        </MenubarMenu>
+      </Menubar>
 
-        </MenubarContent>
-      </MenubarMenu>
-      <MenubarMenu>
-        <MenubarTrigger>Balance</MenubarTrigger>
-        <MenubarContent>
-          <MenubarItem onClick={handleTransact}>Transact</MenubarItem>
-          <MenubarItem>Account Summary#</MenubarItem>
-        </MenubarContent>
-      </MenubarMenu>
-      <MenubarMenu>
-        <MenubarTrigger>Services</MenubarTrigger>
-        <MenubarContent>
-          <MenubarItem onClick={handleCreation}>New Account</MenubarItem>
-        </MenubarContent>
-      </MenubarMenu>
-    </Menubar>
   );
 }

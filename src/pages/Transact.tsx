@@ -28,6 +28,7 @@ import {
   CardTitle,
 } from "@/components/ui/card.tsx";
 import { MenubarDemo } from "@/pages/DashboardBar.tsx";
+import {useNavigate} from "react-router-dom";
 
 //Shape of the mongodb user schema
 interface UserData {
@@ -53,6 +54,7 @@ type TransactData = z.infer<typeof TransactSchema>;
 
 function TransactionForm() {
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const form = useForm<TransactData>({
     resolver: zodResolver(TransactSchema),
@@ -114,6 +116,7 @@ function TransactionForm() {
             console.log("Server Response: ", response);
             if (response.data.message === "Deposit successful") {
               toasterSuc(transactionType, amount);
+              navigate("/dashboard");
             } else {
               console.error("Deposit didn't go through");
               toasterErr(transactionType, amount);
@@ -135,6 +138,7 @@ function TransactionForm() {
             console.log("Server Response: ", response);
             if (response.data.message === "Withdrawal successful") {
               toasterSuc(transactionType, amount);
+              navigate("/dashboard");
             } else {
               console.error("Withdrawal didn't go through");
             }
@@ -159,6 +163,7 @@ function TransactionForm() {
               console.log("Server Response: ", response);
               if (response.data.message === "Transfer successful") {
                 toasterSuc(transactionType, amount);
+                navigate("/dashboard");
               } else {
                 console.error("Transfer didn't go through");
                 toasterErr(transactionType, amount);
