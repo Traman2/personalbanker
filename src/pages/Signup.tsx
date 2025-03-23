@@ -86,7 +86,6 @@ export function SignupForm({
 
         //Gets token from response
         const token = response.data;
-        console.log(token);
         if (token) {
           localStorage.setItem('token', token); //store token.
           navigate('/dashboard'); // Navigate to dashboard
@@ -102,6 +101,7 @@ export function SignupForm({
       });
   };
 
+
   return (
     <div className="flex min-h-svh flex-col items-center justify-center bg-muted p-6 md:p-10">
       <div className="w-full max-w-sm md:max-w-3xl">
@@ -115,7 +115,9 @@ export function SignupForm({
                 Please fill out this application to get started
               </CardDescription>
               {formError && (
-                  <p className="text-red-500 text-sm mt-2">Username or email is already taken</p>
+                <p className="text-red-500 text-sm mt-2">
+                  Username or email is already taken
+                </p>
               )}
             </CardHeader>
             <CardContent>
@@ -251,6 +253,12 @@ export function SignupForm({
                     <Button type="submit" className="w-full">
                       Signup
                     </Button>
+                    <div className="text-center text-sm">
+                      Already have have an account?{" "}
+                      <a href="/login" className="underline underline-offset-4">
+                        Login
+                      </a>
+                    </div>
                   </div>
                 </div>
               </form>

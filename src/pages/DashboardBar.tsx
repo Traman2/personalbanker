@@ -43,9 +43,15 @@ export function MenubarDemo({ name }: Props) {
     navigate("/deleteAccount");
   };
 
+  const handleHistory = () => {
+    navigate("/history");
+  }
+
+  const handleAi = () => {
+    navigate("/ai");
+  }
 
   return (
-
       <Menubar>
         <MenubarMenu>
           <MenubarTrigger
@@ -55,7 +61,7 @@ export function MenubarDemo({ name }: Props) {
             text-blue-700
               font-semibold
               transition duration-200
-            hover:bg-amber-700
+            hover:bg-green-700
             hover:text-gray-200
             "
           >
@@ -82,7 +88,8 @@ export function MenubarDemo({ name }: Props) {
           <MenubarTrigger>Balance</MenubarTrigger>
           <MenubarContent>
             <MenubarItem onClick={handleTransact}>Transact</MenubarItem>
-            <MenubarItem>Account Summary#</MenubarItem>
+            <MenubarItem onClick={handleAi}>AI Scan</MenubarItem>
+            <MenubarItem onClick={handleHistory}>Account Summary</MenubarItem>
           </MenubarContent>
         </MenubarMenu>
         <MenubarMenu>

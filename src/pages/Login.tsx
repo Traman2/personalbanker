@@ -15,7 +15,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import axios from "axios";
-import {useState} from "react";
+import { useState } from "react";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -25,8 +25,6 @@ const loginSchema = z.object({
 type LoginFormData = z.infer<typeof loginSchema>;
 
 export function LoginForm() {
-
-
   const navigate = useNavigate(); //React router
   const {
     register,
@@ -36,9 +34,7 @@ export function LoginForm() {
     resolver: zodResolver(loginSchema),
   });
 
-
   const [setInvalidPass, setSetInvalidPass] = useState(false);
-
 
   //DATA IS COLLECTED HERE. Can send data to server
   const onSubmit = async (data: FieldValues) => {
@@ -72,7 +68,9 @@ export function LoginForm() {
               <CardTitle className="text-xl">Welcome back</CardTitle>
               <CardDescription>Login with your account</CardDescription>
               {setInvalidPass && (
-                  <p className="text-red-500 text-sm mt-2">Invalid email or password</p>
+                <p className="text-red-500 text-sm mt-2">
+                  Invalid email or password
+                </p>
               )}
             </CardHeader>
             <CardContent>
@@ -94,15 +92,7 @@ export function LoginForm() {
                       )}
                     </div>
                     <div className="grid gap-2">
-                      <div className="flex items-center">
-                        <Label htmlFor="password">Password</Label>
-                        <button
-                          onClick={() => navigate("/signup")}
-                          className="ml-auto text-sm underline-offset-4 hover:underline text-blue-600"
-                        >
-                          Forgot your password?
-                        </button>
-                      </div>
+                      <Label htmlFor="password">Password</Label>
                       <Input
                         id="password"
                         type="password"

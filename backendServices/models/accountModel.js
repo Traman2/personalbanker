@@ -26,7 +26,11 @@ const accountSchema = new mongoose.Schema({
         ref: "User", // Assuming you have a 'User' model
         required: true,
     },
-
+    status: {
+        type: String,
+        required: true,
+        default: "Active"
+    },
     balance: {
         type: Number,
         required: true,

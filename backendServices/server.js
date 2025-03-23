@@ -9,6 +9,7 @@ import bodyParser from "body-parser";
 import userRoutes from './routes/userRoutes.js'
 import authRoutes from './routes/authRoutes.js'
 import accountRoutes from './routes/accountRoutes.js'
+import transactionRoutes from "./routes/transactionRoutes.js"
 
 const port = 3000;
 const app = express();
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use('/user', userRoutes);
 app.use('/auth', authRoutes);
 app.use('/account', accountRoutes);
+app.use('/transactions', transactionRoutes);
 
 mongoose
     .connect(process.env.DB_URL)

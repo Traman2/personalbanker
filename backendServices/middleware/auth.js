@@ -10,7 +10,7 @@ function auth(req, res, next) {
 
   try {
     req.user = jwt.verify(token, "secretstring1234");
-    next(); //req.use only has to fields from jwt.verify: _id and iat
+    next(); //req.user only has to fields from jwt.verify: _id and iat
   } catch (ex) {
     res.status(400).send("Invalid token.");
   }

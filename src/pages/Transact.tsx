@@ -28,7 +28,7 @@ import {
   CardTitle,
 } from "@/components/ui/card.tsx";
 import { MenubarDemo } from "@/pages/DashboardBar.tsx";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 //Shape of the mongodb user schema
 interface UserData {
@@ -90,13 +90,13 @@ function TransactionForm() {
     fetchUserData();
   }, []);
 
-  const toasterSuc = (transact:string, amo:number) => {
-    toast.success(`Your ${transact} of $${amo} was completed`)
-  }
+  const toasterSuc = (transact: string, amo: number) => {
+    toast.success(`Your ${transact} of $${amo} was completed`);
+  };
 
-  const toasterErr = (transact:string, amo:number) => {
-    toast.error(`Your ${transact} of $${amo} was declined`)
-  }
+  const toasterErr = (transact: string, amo: number) => {
+    toast.error(`Your ${transact} of $${amo} was declined`);
+  };
 
   const onSubmit = async (data: TransactData) => {
     setLoading(true);
@@ -154,28 +154,26 @@ function TransactionForm() {
         }
 
         await axios
-            .put(
-                `http://localhost:3000/account/${accountNumber}/${recipientAccount}/transfer`,
-                { amount: amount },
-                { headers: { "Content-Type": "application/json" } },
-            )
-            .then((response) => {
-              console.log("Server Response: ", response);
-              if (response.data.message === "Transfer successful") {
-                toasterSuc(transactionType, amount);
-                navigate("/dashboard");
-              } else {
-                console.error("Transfer didn't go through");
-                toasterErr(transactionType, amount);
-              }
-            })
-            .catch((error) => {
-              console.error("Problem with withdrawal", error);
+          .put(
+            `http://localhost:3000/account/${accountNumber}/${recipientAccount}/transfer`,
+            { amount: amount },
+            { headers: { "Content-Type": "application/json" } },
+          )
+          .then((response) => {
+            console.log("Server Response: ", response);
+            if (response.data.message === "Transfer successful") {
+              toasterSuc(transactionType, amount);
+              navigate("/dashboard");
+            } else {
+              console.error("Transfer didn't go through");
               toasterErr(transactionType, amount);
-              setLoading(false);
-            });
-
-
+            }
+          })
+          .catch((error) => {
+            console.error("Problem with withdrawal", error);
+            toasterErr(transactionType, amount);
+            setLoading(false);
+          });
       }
     } catch (error) {
       toast("Transaction Failed", {

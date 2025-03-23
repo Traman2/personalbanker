@@ -15,12 +15,14 @@ import TransactionForm from "@/pages/Transact.tsx";
 import ToasterLayout from "@/components/Layout.tsx";
 import BankAccountCreation from "@/pages/BankAccountCreation.tsx";
 import DeleteAccount from "@/pages/DeactivateAccount.tsx";
+import TransactionPage from "@/pages/AccountSummary.tsx";
+import AiTransactionPage from "@/pages/AIReceipt.tsx";
 
 function App() {
   return (
-    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-      <Router>
-        <ToasterLayout>
+    <ToasterLayout>
+      <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+        <Router>
           <Routes>
             <Route path="/" element={<LoginForm />} />
             <Route path="/signup" element={<SignupForm />} />
@@ -30,6 +32,14 @@ function App() {
               element={
                 <PrivateRoute>
                   <Security />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/history"
+              element={
+                <PrivateRoute>
+                  <TransactionPage />
                 </PrivateRoute>
               }
             />
@@ -73,10 +83,19 @@ function App() {
                 </PrivateRoute>
               }
             />
+
+              <Route
+                path="/ai"
+                element={
+                  <PrivateRoute>
+                      <AiTransactionPage/>
+                  </PrivateRoute>
+                }
+              />
           </Routes>
-        </ToasterLayout>
-      </Router>
-    </ThemeProvider>
+        </Router>
+      </ThemeProvider>
+    </ToasterLayout>
   );
 }
 
