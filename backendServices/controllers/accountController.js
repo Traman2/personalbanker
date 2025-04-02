@@ -241,11 +241,11 @@ const transferMoney = async (req, res) => {
 
 //Code and api calls for Sambanova ai image processing
 const openai = new OpenAI({
-  apiKey: "b305baaf-97bc-4d17-82e1-193c3c4a7293",
+  apiKey: "e7fba955-eb0a-4e8f-b003-615c5578892c",
   baseURL: "https://api.sambanova.ai/v1",
 });
 
-const main = async(imagePath)=> {
+const openAIreceiptScanner = async(imagePath)=> {
   try {
     const imageBase64 = encodeImage(imagePath);
 
@@ -271,12 +271,12 @@ const main = async(imagePath)=> {
     console.log(JSON.parse(response.choices[0].message.content));
     return response.choices[0].message.content; // Return the response
   } catch (error) {
-    console.error("Error in main function:", error);
+    console.error("Error in openAIreceiptScanner function:", error);
     return { error: "An error occurred during AI processing" }; // return error object.
   }
 }
 
-// Helper function to encode the image
+// Helper function to convert file into base64
 function encodeImage(imagePath) {
   const imageBuffer = fs.readFileSync(imagePath);
   return imageBuffer.toString("base64");
@@ -292,9 +292,9 @@ const aiProcessMoney = async (req, res) => {
     const { accountNum } = req.params;
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = path.dirname(__filename);
-    const filePath = `${path.dirname(__dirname)}/uploads/${req.file.originalname}`; // Construct full file path
+    const filePath = `${path.dirname(__dirname)}/uploads/${req.file.filename}`; // Construct full file path
 
-    const aiResponse = await main(filePath); // Pass file path to main function
+    const aiResponse = await openAIreceiptScanner(filePath); // Pass file path to openAIreceiptScanner function
 
 
     if (aiResponse.error) {
@@ -343,11 +343,11 @@ const aiProcessMoney = async (req, res) => {
       newBalance: newBalance,
     });
 
-    res.json({ message: "Transaction processed successfully", balance: account.balance });
+    res.send({ message: "Transaction processed successfully", aiResJSON });
 
   } catch (error) {
     console.error("Error during file upload and AI processing:", error);
-    res.status(500).json({ error: "An error occurred during file processing." });
+    res.status(500).send({ error: "An error occurred during file processing." });
   }
 }
 

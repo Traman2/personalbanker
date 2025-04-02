@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { MenubarDemo } from "@/pages/DashboardBar.tsx";
+import { MenubarDemo } from "@/components/DashboardBar.tsx";
 import { ModeToggle } from "@/components/mode-toggle.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { useNavigate } from "react-router-dom";
@@ -62,15 +62,17 @@ function Settings() {
     fetchUserData();
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   if (error) {
     return <div>{error}</div>;
   }
-
-  if (!userData) {
+  else if (loading) {
+    return (
+        <div className="flex items-center justify-center h-screen">
+          <div className="animate-spin rounded-full h-8 w-8 border-4 border-blue-500 border-t-transparent"></div>
+        </div>
+    );
+  }
+  else if (!userData) {
     return <div>No user data available.</div>;
   }
 

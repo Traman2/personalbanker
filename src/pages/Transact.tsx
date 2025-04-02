@@ -27,7 +27,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card.tsx";
-import { MenubarDemo } from "@/pages/DashboardBar.tsx";
+import { MenubarDemo } from "@/components/DashboardBar.tsx";
 import { useNavigate } from "react-router-dom";
 
 //Shape of the mongodb user schema
@@ -46,7 +46,7 @@ const TransactSchema = z.object({
   transactionType: z.enum(["deposit", "withdraw", "transfer"], {
     required_error: "Select a transaction type",
   }),
-  amount: z.number().positive("Amount must be greater than zero"),
+  amount: z.coerce.number().positive("Amount must be greater than zero"),
   recipientAccount: z.string().optional(), // Only needed for transfers
 });
 
@@ -187,8 +187,14 @@ function TransactionForm() {
   if (error) {
     return <div>{error}</div>;
   }
-
-  if (!userData) {
+  else if (loading) {
+    return (
+        <div className="flex items-center justify-center h-screen">
+          <div className="animate-spin rounded-full h-8 w-8 border-4 border-blue-500 border-t-transparent"></div>
+        </div>
+    );
+  }
+  else if (!userData) {
     return <div>No user data available.</div>;
   }
 
@@ -196,7 +202,7 @@ function TransactionForm() {
     <>
       <div className={"pl-4 pr-4 pt-4 max-w-[1080px] mx-auto"}>
         <MenubarDemo name={userData.userName}></MenubarDemo>
-        <Card className="w-[400px] mt-5">
+        <Card className="w-[400px] mt-5 ">
           <CardHeader>
             <CardTitle>Transfer Options</CardTitle>
           </CardHeader>
@@ -260,9 +266,6 @@ function TransactionForm() {
                           type="number"
                           placeholder="Enter amount"
                           {...field}
-                          onChange={(e) =>
-                            field.onChange(Number(e.target.value))
-                          }
                         />
                       </FormControl>
                       <FormMessage />

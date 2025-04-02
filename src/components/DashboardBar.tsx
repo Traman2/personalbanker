@@ -4,7 +4,7 @@ import {
   MenubarItem,
   MenubarMenu,
   MenubarTrigger,
-} from "@/components/ui/menubar";
+} from "@/components/ui/menubar.tsx";
 import { useNavigate } from "react-router-dom";
 
 interface Props {

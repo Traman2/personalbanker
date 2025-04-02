@@ -1,0 +1,14 @@
+### GET request to example server
+POST http://localhost:3000/user
+Content-Type: application/json
+
+{
+  "userName": "Thejjuujjns",
+  "firstName": "John",
+  "lastName": "Doe",
+  "dob": "1995-06-15T00:00:00.000Z",
+  "phoneNumber": "1234567890",
+  "password": "secure password123",
+  "email": "john.djjre@xamle.com"
+}
+

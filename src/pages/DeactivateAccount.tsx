@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card.tsx";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { MenubarDemo } from "@/pages/DashboardBar.tsx";
+import { MenubarDemo } from "@/components/DashboardBar.tsx";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -106,8 +106,14 @@ function DeleteAccount() {
   if (error) {
     return <div>{error}</div>;
   }
-
-  if (!userData) {
+  else if (loading) {
+    return (
+        <div className="flex items-center justify-center h-screen">
+          <div className="animate-spin rounded-full h-8 w-8 border-4 border-blue-500 border-t-transparent"></div>
+        </div>
+    );
+  }
+  else if (!userData) {
     return <div>No user data available.</div>;
   }
 

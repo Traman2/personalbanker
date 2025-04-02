@@ -20,7 +20,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card.tsx";
-import { MenubarDemo } from "@/pages/DashboardBar.tsx";
+import { MenubarDemo } from "@/components/DashboardBar.tsx";
 
 // Shape of the mongodb user schema
 interface UserData {
@@ -77,6 +77,13 @@ const AiTransactionPage = () => {
     fetchUserData();
   }, []);
 
+  const formatCurrency = (amount: number): string => {
+    return amount.toLocaleString("en-US", {
+      style: "currency",
+      currency: "USD",
+    });
+  };
+
   const onSubmit = async (data: AiTransactData) => {
     setLoading(true);
     setError(null);
@@ -105,7 +112,7 @@ const AiTransactionPage = () => {
       );
 
       if (response.data.message === "Transaction processed successfully") {
-        toast.success("Transaction processed successfully");
+        toast.success(`Your ${response.data.aiResJSON.type === "withdraw"? "withdrawal" : "deposit"} of ${formatCurrency(response.data.aiResJSON.amount)} went through`);
         //  navigate("/dashboard"); // Removed navigate, keep it simple for this page
       } else {
         toast.error("Transaction failed");
@@ -122,11 +129,16 @@ const AiTransactionPage = () => {
   if (error) {
     return <div>{error}</div>;
   }
-
-  if (!userData) {
+  else if (loading) {
+    return (
+        <div className="flex items-center justify-center h-screen">
+          <div className="animate-spin rounded-full h-8 w-8 border-4 border-blue-500 border-t-transparent"></div>
+        </div>
+    );
+  }
+  else if (!userData) {
     return <div>No user data available.</div>;
   }
-
   return (
     <div className={"pl-4 pr-4 pt-4 max-w-[1080px] mx-auto"}>
       <MenubarDemo name={userData.userName}></MenubarDemo>

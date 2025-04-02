@@ -7,8 +7,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { MenubarDemo } from "@/pages/DashboardBar.tsx";
+import { MenubarDemo } from "@/components/DashboardBar.tsx";
 import { Line } from "react-chartjs-2";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -19,6 +29,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import {Button} from "@/components/ui/button.tsx";
 
 ChartJS.register(
   CategoryScale,
@@ -74,6 +85,7 @@ function TransactionPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [showChart, setShowChart] = useState(false);
   useEffect(() => {
     const fetchAccountData = () => {
       setLoading(true);
@@ -137,16 +149,16 @@ function TransactionPage() {
     });
   };
 
-  if (!userData) {
-    return <div>No user data</div>;
-  }
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   if (error) {
     return <div>{error}</div>;
+  } else if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="animate-spin rounded-full h-8 w-8 border-4 border-blue-500 border-t-transparent"></div>
+      </div>
+    );
+  } else if (!userData) {
+    return <div>No user data available.</div>;
   }
 
   const labelsData = (accountNumber: string) => {
@@ -154,7 +166,6 @@ function TransactionPage() {
       .map((transaction) =>
         new Date(transaction.createdAt).toLocaleDateString(),
       )
-      .reverse();
   };
 
   const data = (accountNumber: string) => {
@@ -164,8 +175,7 @@ function TransactionPage() {
         {
           label: "Balance",
           data: accountTransactions[accountNumber]
-            .map((transaction) => transaction.newBalance)
-            .reverse(),
+            .map((transaction) => transaction.newBalance),
           fill: false,
           backgroundColor: "rgb(75, 192, 192)",
           borderColor: "rgba(75, 192, 192, 0.2)",
@@ -179,11 +189,11 @@ function TransactionPage() {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top' as const,
+        position: "top" as const,
       },
       title: {
         display: true,
-        text: 'Total balance Over Time',
+        text: "Total balance Over Time",
       },
     },
   };
@@ -229,45 +239,65 @@ function TransactionPage() {
           </CardHeader>
           <CardContent>
             {accountTransactions[account.accountNumber]?.length > 1 ? (
-              <div className="space-y-2 ">
-                {accountTransactions[account.accountNumber]
-                  ?.sort(
-                    (a, b) =>
-                      new Date(b.createdAt).getTime() -
-                      new Date(a.createdAt).getTime(),
-                  )
-                  .map((transaction) => (
-                    <div
-                      key={transaction._id}
-                      className="p-3 border rounded-lg"
-                    >
-                      <div className="flex justify-between">
-                        <span className="font-semibold">
-                          {transaction.transactionType}
-                        </span>
-                        <span>{formatCurrency(transaction.amount)}</span>
-                      </div>
-                      <div className="text-sm text-gray-500 mt-1">
-                        {new Date(transaction.createdAt).toLocaleString()}
-                      </div>
-                      {transaction.recipientAccountNumber && (
-                        <div className="text-sm text-gray-500 mt-1">
-                          Recipient: {transaction.recipientAccountNumber}
-                        </div>
-                      )}
-                      {transaction.description && (
-                        <div className="text-sm text-gray-500 mt-1">
-                          Description: {transaction.description}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-
-                <div className="space-y-2 p-3 border rounded-lg">
-                  {accountTransactions[account.accountNumber] && (
-                    <Line data={data(account.accountNumber)} options={options}/>
-                  )}
-                </div>
+              <div>
+                <Table>
+                  <TableCaption>End of Transaction History</TableCaption>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-[200px]">Type</TableHead>
+                      <TableHead>Date</TableHead>
+                      <TableHead className="text-right">Amount</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {accountTransactions[account.accountNumber]
+                      ?.sort(
+                        (a, b) =>
+                          new Date(a.createdAt).getTime() -
+                          new Date(b.createdAt).getTime(),
+                      )
+                      .map((transaction) => (
+                        <TableRow key={transaction._id}>
+                          <TableCell className="font-medium">
+                            {transaction.transactionType}
+                          </TableCell>
+                          <TableCell>
+                            {new Date(transaction.createdAt).toLocaleString()}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            {formatCurrency(transaction.amount)}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                  </TableBody>
+                  <TableFooter>
+                    <TableRow>
+                      <TableCell colSpan={2}>Total</TableCell>
+                      <TableCell className="text-right">
+                        {formatCurrency(account.balance)}
+                      </TableCell>
+                    </TableRow>
+                  </TableFooter>
+                </Table>
+                <div className="mt-5 border-t border-gray-300"></div>
+                {showChart?
+                    (<Button className="mt-4" onClick={() => setShowChart(false)}>
+                      Hide chart
+                    </Button>) :
+                    (<Button className="mt-4" onClick={() => setShowChart(true)}>
+                      Show chart
+                    </Button>)
+                }
+                {showChart &&
+                  <div className="space-y-2 p-3 mt-5 border rounded-lg">
+                    {accountTransactions[account.accountNumber] && (
+                      <Line
+                        data={data(account.accountNumber)}
+                        options={options}
+                      />
+                    )}
+                  </div>
+                }
               </div>
             ) : (
               <p>No transactions found for this account.</p>

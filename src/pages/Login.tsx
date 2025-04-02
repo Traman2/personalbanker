@@ -59,13 +59,35 @@ export function LoginForm() {
       });
   };
 
+  const currentTime = () => {
+
+      let greeting: string = "";
+
+      const now = new Date();
+      const hours = now.getHours();
+
+      if (hours >= 12 && hours < 18) { //Between 12pm to 6pm
+          greeting = "Good Afternoon";
+      } else if (hours >= 18 && hours < 22) {
+          greeting = "Good Evening"; //From 6pm to 12am
+      } else if ((hours >= 22 && hours <= 23) || (hours >= 0 && hours < 5)){
+          greeting = "Good Night"; //From 10pm to 5am
+      } else {
+          greeting = "Good Morning"; // From 5am to 12pm
+      }
+      console.log(hours);
+
+      return greeting;
+  }
+
+
   return (
     <div className="flex min-h-svh flex-col items-center justify-center bg-muted p-6 md:p-10">
       <div className="w-full max-w-sm md:max-w-3xl">
         <div className={cn("flex flex-col gap-6")}>
           <Card>
             <CardHeader className="text-center">
-              <CardTitle className="text-xl">Welcome back</CardTitle>
+              <CardTitle className="text-2xl font-bold">Welcome back and {currentTime()}</CardTitle>
               <CardDescription>Login with your account</CardDescription>
               {setInvalidPass && (
                 <p className="text-red-500 text-sm mt-2">
@@ -104,13 +126,13 @@ export function LoginForm() {
                         </p>
                       )}
                     </div>
-                    <Button type="submit" className="w-full">
+                    <Button type="submit" className="w-full bg-green-700">
                       Login
                     </Button>
                   </div>
                   <div className="text-center text-sm">
                     Don&apos;t have an account?{" "}
-                    <a href="/signup" className="underline underline-offset-4">
+                    <a href="/signup" className="underline underline-offset-4 text-green-500 font-bold">
                       Sign up
                     </a>
                   </div>

@@ -1,4 +1,4 @@
-import { MenubarDemo } from "@/pages/DashboardBar.tsx";
+import { MenubarDemo } from "@/components/DashboardBar.tsx";
 import {
   Card,
   CardContent,
@@ -50,15 +50,17 @@ function Security() {
     fetchUserData();
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   if (error) {
     return <div>{error}</div>;
   }
-
-  if (!userData) {
+  else if (loading) {
+    return (
+        <div className="flex items-center justify-center h-screen">
+          <div className="animate-spin rounded-full h-8 w-8 border-4 border-blue-500 border-t-transparent"></div>
+        </div>
+    );
+  }
+  else if (!userData) {
     return <div>No user data available.</div>;
   }
 
