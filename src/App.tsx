@@ -17,6 +17,7 @@ import BankAccountCreation from "@/pages/BankAccountCreation.tsx";
 import DeleteAccount from "@/pages/DeactivateAccount.tsx";
 import TransactionPage from "@/pages/AccountSummary.tsx";
 import AiTransactionPage from "@/pages/AIReceipt.tsx";
+import Stocks from "@/pages/Stocks.tsx"
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path="/" element={<LoginForm />} />
             <Route path="/signup" element={<SignupForm />} />
             <Route path="/login" element={<LoginForm />} />
+              <Route path="/stocks" element={<Stocks/>}/>
             <Route
               path="/security"
               element={

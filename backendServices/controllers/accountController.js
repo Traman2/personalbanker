@@ -241,7 +241,7 @@ const transferMoney = async (req, res) => {
 
 //Code and api calls for Sambanova ai image processing
 const openai = new OpenAI({
-  apiKey: "e7fba955-eb0a-4e8f-b003-615c5578892c",
+  apiKey: "67d0fef6-70fe-404c-94e6-54edf2ac6130",
   baseURL: "https://api.sambanova.ai/v1",
 });
 
